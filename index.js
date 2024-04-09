@@ -61,7 +61,7 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
   }
 
   if (digit.includes(key) && !sign) {
-    if (key === "0" && firstNum[0] === "0" && firstNum.length <=2) return;
+    if (key === "0" && firstNum[0] === "0" && firstNum.length <= 2) return;
     if (key === "." && firstNum.includes(".")) {
       return;
     } else if (key === "." && firstNum === "") {
