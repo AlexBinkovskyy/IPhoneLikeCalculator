@@ -32,16 +32,15 @@ document.querySelector(".buttons").onclick = (event) => {
   if (
     firstNum &&
     secondNum &&
-    !finish &&
+    finish &&
     !event.target.classList.contains("equal") &&
     !actions.includes(key)
   ) {
-    clearAll();
+    secondNum = "";
+    finish= false
   }
 
   if (digit.includes(key) && !sign && !finish) {
-    if(firstNum) return secondNum = +key;
-    
     firstNum += +key;
     screen.textContent = firstNum;
     console.log(firstNum, sign, secondNum);
@@ -57,7 +56,6 @@ document.querySelector(".buttons").onclick = (event) => {
   }
 
   if (sign && !event.target.classList.contains("equal")) {
-    if(secondNum && finish) secondNum = 0
     finish = false;
     secondNum += +key;
     screen.textContent = `${firstNum} ${sign} ${secondNum}`;
