@@ -20,7 +20,6 @@ function clearAll() {
 }
 
 document.querySelector(".buttons").onclick = (event) => {
-
   if (
     !event.target.classList.contains("btn") ||
     event.target.classList.contains("ac")
@@ -37,7 +36,7 @@ document.querySelector(".buttons").onclick = (event) => {
     !actions.includes(key)
   ) {
     secondNum = "";
-    finish= false
+    finish = false;
   }
 
   if (digit.includes(key) && !sign && !finish) {
@@ -49,8 +48,8 @@ document.querySelector(".buttons").onclick = (event) => {
   if (actions.includes(key) && firstNum) {
     sign = key;
     sign === "x"
-      ? (screen.textContent = "*")
-      : (screen.textContent = firstNum, `${sign}`);
+      ? (screen.textContent = `${+firstNum} *`)
+      : (screen.textContent = `${+firstNum} ${sign}`);
     console.log(firstNum, sign, secondNum);
     return;
   }
@@ -58,12 +57,14 @@ document.querySelector(".buttons").onclick = (event) => {
   if (sign && !event.target.classList.contains("equal")) {
     finish = false;
     secondNum += +key;
-    screen.textContent = `${firstNum} ${sign} ${secondNum}`;
+    sign === "x"
+      ? (screen.textContent = `${firstNum} * ${secondNum}`)
+      : (screen.textContent = `${firstNum} ${sign} ${secondNum}`);
     console.log(firstNum, sign, secondNum);
   }
 
   if (event.target.classList.contains("equal") && firstNum) {
-    if (secondNum === "0" || Number(secondNum) === 0) {
+    if (secondNum === "0" || Number(secondNum) === 0 && sign === '/') {
       clearAll();
       return (screen.textContent = "Ділення на 0!!!");
     }
