@@ -19,6 +19,8 @@ function clearAll() {
   screen.textContent = 0;
 }
 
+
+
 document.querySelector(".buttons").onclick = (event) => {
   if (
     !event.target.classList.contains("btn") ||
@@ -27,6 +29,13 @@ document.querySelector(".buttons").onclick = (event) => {
     return;
 
   const key = event.target.textContent;
+
+
+  if(Number(key) === 0 && firstNum !== '') {
+    firstNum += key;
+    screen.textContent = firstNum;
+    return
+  }
 
   if (
     firstNum &&
@@ -40,8 +49,12 @@ document.querySelector(".buttons").onclick = (event) => {
   }
 
   if (digit.includes(key) && !sign && !finish) {
-    firstNum += +key;
-    screen.textContent = firstNum;
+    firstNum += key;
+    if(firstNum[0] === '0') {
+      const temp = firstNum.slice(1)
+      firstNum = temp
+    }
+    screen.textContent = +firstNum
     console.log(firstNum, sign, secondNum);
   }
 
@@ -56,7 +69,7 @@ document.querySelector(".buttons").onclick = (event) => {
 
   if (sign && !event.target.classList.contains("equal")) {
     finish = false;
-    secondNum += +key;
+    secondNum += key;
     sign === "x"
       ? (screen.textContent = `${firstNum} * ${secondNum}`)
       : (screen.textContent = `${firstNum} ${sign} ${secondNum}`);
@@ -76,17 +89,17 @@ document.querySelector(".buttons").onclick = (event) => {
         firstNum = Number(+firstNum + +secondNum);
         break;
       case "-":
-        firstNum = +firstNum - +secondNum;
+        firstNum = firstNum - secondNum;
         break;
       case "x":
-        firstNum = +firstNum * +secondNum;
+        firstNum = firstNum * secondNum;
         break;
       case "/":
-        firstNum = +firstNum / +secondNum;
+        firstNum = firstNum / secondNum;
         break;
     }
-    screen.textContent = +firstNum;
+    screen.textContent = Number(firstNum).toFixed(2);
     finish = true;
-    console.log(firstNum, sign, +secondNum, finish);
+    console.log(firstNum, sign, secondNum, finish);
   }
 };
