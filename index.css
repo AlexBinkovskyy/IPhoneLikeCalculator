@@ -20,7 +20,16 @@
 }
 
 p {
-  font-size: 4rem;
+  /* width: 100%;
+  height:auto;
+  text-align: end;
+  font-size: 58px;
+  margin: 0 0 20px 0;
+  text-wrap: wrap; */
+  /* width: 100%; */
+  height: auto; /* Автоматична висота */
+  text-align: end; /* Вирівнювання тексту по правому краю */
+  font-size: 58px;
   margin: 0 0 20px 0;
 }
 
@@ -69,6 +78,9 @@ p {
 .btn.orange {
   background: #ff9501;
 }
+
+
+
 
 .ac {
 }
