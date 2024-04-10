@@ -33,8 +33,6 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
     return clearAll();
   }
 
-  // if (event.target.classList.contains("percent")) return (percent = true);
-
   if (event.target.classList.contains("plusMinus")) {
     if (sign && secondNum !== "") {
       secondNum = (parseFloat(secondNum) * -1).toString();
@@ -123,9 +121,9 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
     return (third.textContent = firstNum);
   }
 
-  if(firstNum && secondNum && sign && key === '%'){
-    secondNum = (firstNum) * (secondNum) / 100
-    first.textContent = `${firstNum}${sign}${secondNum}`
-    return
+  if (firstNum && secondNum && sign && key === "%") {
+    secondNum = (firstNum * secondNum) / 100;
+    first.textContent = `${firstNum}${sign}${secondNum}`;
+    return;
   }
 });
