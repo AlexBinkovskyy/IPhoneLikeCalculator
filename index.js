@@ -33,7 +33,7 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
     return clearAll();
   }
 
-  if (event.target.classList.contains("percent")) return (percent = true);
+  // if (event.target.classList.contains("percent")) return (percent = true);
 
   if (event.target.classList.contains("plusMinus")) {
     if (sign && secondNum !== "") {
@@ -109,8 +109,8 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
       const firstStrLength = firstNum.includes(".")
         ? firstNum.split(".")[1].length
         : 0;
-      const secondStrLength = secondNum.includes(".")
-        ? secondNum.split(".")[1].length
+      const secondStrLength = secondNum.toString().includes(".")
+        ? secondNum.toString().split(".")[1].length
         : 0;
       const result = eval(first.textContent);
       const maxLength = Math.max(firstStrLength, secondStrLength);
@@ -121,5 +121,11 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
     }
     finish = true;
     return (third.textContent = firstNum);
+  }
+
+  if(firstNum && secondNum && sign && key === '%'){
+    secondNum = (firstNum) * (secondNum) / 100
+    first.textContent = `${firstNum}${sign}${secondNum}`
+    return
   }
 });

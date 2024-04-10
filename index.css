@@ -1,6 +1,6 @@
 .calc {
   width: 268px;
-  height: 520px;
+  min-height: 520px;
   border-radius: 40px;
   background: #000;
   box-shadow: 4px 4px 4px black;
@@ -11,19 +11,29 @@
 }
 
 .screen {
-  height: 125px;
+  min-height: 125px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: end;
   margin-top: 20px;
+  justify-content: end;
 }
 
-.first {
+.first{
+  background-color: #1d1c1c;
+  
+}
+
+.first, .third {
+  padding: 5px;
+  border-radius: 5px;
+  overflow: hidden;
   text-align: right;
-  font-size: 40px;
+  font-size: 30px;
   width: 100%;
-  height: 55px;
+  min-height: 35px;
+  word-wrap: break-word;
 }
 
 .third {
@@ -31,20 +41,20 @@
   display: block;
   margin-top: auto;
   text-align: right;
-  font-size: 56px;
-  font-weight: 300;
+  font-size: 46px;
+  background-color: #96969652;
   width: 100%;
-  height: 55px;
+  min-height: 65px;
   color: #ff9501;
 }
 
-.third::after {
+.screen::after {
   content: "Результат обчислень";
   position: absolute;
   width: 180px;
   color: #575656;
   font-size: 14px;
-  transform: translateY(60px) translateX(-180px);
+  transform: translateY(30px) translateX(45px);
 }
 
 .buttons {
