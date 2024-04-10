@@ -95,6 +95,12 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
   }
 
   if (key === "=") {
+    if (secondNum === "0" && sign === "/") {
+      first.textContent = "Ділення на нуль, помилка!!!";
+      firstNum = ''
+      secondNum = ''
+      sign = ''
+    }
     if (
       Number.isInteger(Number(firstNum)) &&
       Number.isInteger(Number(secondNum))
