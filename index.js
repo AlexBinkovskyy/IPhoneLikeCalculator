@@ -1,11 +1,12 @@
+import { checkIsButton, checkOnlyDigits } from "./helpers.js";
+
 const first = document.querySelector(".screen .first");
 const third = document.querySelector(".screen .third");
 document.querySelector(".ac").onclick = clearAll;
+const buttons = document.querySelector(".buttons");
 
 const digit = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-const actions = ["-", "+", "x", "/"];
-let percent = false;
-let plusMinus = false;
+const actions = ["-", "+", "x", "/", "*"];
 let firstNum = "";
 let secondNum = "";
 let sign = "";
@@ -21,85 +22,94 @@ function clearAll() {
   screen.textContent = 0;
 }
 
-document.querySelector(".buttons").addEventListener("click", (event) => {
-  if (
-    !event.target.classList.contains("btn") ||
-    event.target.classList.contains("ac")
-  )
-    return;
+const displayTextContens = () => {
+  first.textContent = `${firstNum}${sign}${secondNum}`;
+};
 
-  const key = event.target.textContent;
-  if (key === "AC") {
-    return clearAll();
+const handleKeyboard = (event) => {
+  let key = event.key;
+  if (!digit.includes(key) && !actions.includes(key) && key !== "Enter" && key !== "Escape") return;
+  if (digit.includes(key)) {
+    digitPressFirst(key);
+    digitPressSecond(key);
+    return;
+  } else if (actions.includes(key)) {
+    actionsPress(key);
+    return;
+  }else if(key === "Enter"){
+    countEqual(key);
+    return;
+  }else{
+    clearAll()
   }
 
-  if (event.target.classList.contains("plusMinus")) {
-    if (sign && secondNum !== "") {
-      secondNum = (parseFloat(secondNum) * -1).toString();
-      first.textContent = `${firstNum}${sign}${secondNum}`;
-    } else if (firstNum !== "") {
-      firstNum = (parseFloat(firstNum) * -1).toString();
-      first.textContent = firstNum;
-    }
-    return;
-  }
+};
+document.addEventListener("keydown", handleKeyboard);
 
+const actionsPress = (key) => {
   if (actions.includes(key)) {
     if (!firstNum) return;
     if (finish) {
       secondNum = "";
       sign = key === "x" ? "*" : key;
-      first.textContent = `${firstNum}${sign}${secondNum}`;
+      displayTextContens();
       finish = false;
       return;
     }
     sign = key === "x" ? "*" : key;
-    first.textContent = `${firstNum}${sign}${secondNum}`;
+    displayTextContens();
     return;
   }
+};
 
+const digitPressFirst = (key) => {
   if (digit.includes(key) && !sign) {
     if (key === "0" && firstNum[0] === "0" && firstNum.length <= 2) return;
     if (key === "." && firstNum.includes(".")) {
       return;
     } else if (key === "." && firstNum === "") {
       firstNum = "0.";
-      first.textContent = firstNum;
+      displayTextContens();
       return;
     }
     firstNum += key;
-    first.textContent = firstNum;
+    displayTextContens();
     return;
   }
+};
 
+const digitPressSecond = (key) => {
   if (digit.includes(key) && sign) {
     if (key === "." && secondNum.includes(".")) {
       return;
     } else if (key === "." && secondNum === "") {
       secondNum = "0.";
-      first.textContent = `${firstNum}${sign}${secondNum}`;
+      displayTextContens();
       return;
     }
     if (finish) {
       firstNum = "";
       firstNum = key;
       secondNum = "";
+      third.textContent = "";
       sign = "";
       finish = false;
-      first.textContent = `${firstNum}${sign}${secondNum}`;
+      displayTextContens();
       return;
     }
     secondNum += key;
-    first.textContent = `${firstNum}${sign}${secondNum}`;
+    displayTextContens();
     return;
   }
+};
 
-  if (key === "=") {
+const countEqual = (key) => {
+  if (key === "=" || key === "Enter") {
     if (secondNum === "0" && sign === "/") {
       first.textContent = "Ділення на нуль, помилка!!!";
-      firstNum = ''
-      secondNum = ''
-      sign = ''
+      firstNum = "";
+      secondNum = "";
+      sign = "";
     }
     if (
       Number.isInteger(Number(firstNum)) &&
@@ -129,7 +139,39 @@ document.querySelector(".buttons").addEventListener("click", (event) => {
 
   if (firstNum && secondNum && sign && key === "%") {
     secondNum = (firstNum * secondNum) / 100;
-    first.textContent = `${firstNum}${sign}${secondNum}`;
+    displayTextContens();
     return;
   }
-});
+};
+
+const handleClick = (event) => {
+  if(checkIsButton(event)) return;
+  const key = event.target.textContent;
+
+  if (key === "AC") {
+    return clearAll();
+  }
+
+  if (event.target.classList.contains("plusMinus")) {
+    if (sign && secondNum !== "") {
+      secondNum = (parseFloat(secondNum) * -1).toString();
+      displayTextContens();
+    } else if (firstNum !== "") {
+      firstNum = (parseFloat(firstNum) * -1).toString();
+      first.textContent = firstNum;
+    }
+    return;
+  }
+  console.log(key);
+  if (digit.includes(key)) {
+    digitPressFirst(key);
+    digitPressSecond(key);
+    return;
+  } else if (actions.includes(key)) {
+    actionsPress(key);
+    return;
+  }
+  countEqual(key);
+};
+
+buttons.addEventListener("click", handleClick);
