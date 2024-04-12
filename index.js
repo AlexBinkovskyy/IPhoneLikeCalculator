@@ -22,27 +22,40 @@ function clearAll() {
   screen.textContent = 0;
 }
 
+const backSpace = (someNum) => {
+  if (!someNum) return;
+  let temp = someNum.slice(0, someNum.length - 1);
+  return (temp = temp.length >= 1 ? temp : "0");
+};
+
 const displayTextContens = () => {
   first.textContent = `${firstNum}${sign}${secondNum}`;
 };
 
 const handleKeyboard = (event) => {
   let key = event.key;
-  if (!digit.includes(key) && !actions.includes(key) && key !== "Enter" && key !== "Escape") return;
-  if (digit.includes(key)) {
-    digitPressFirst(key);
+
+  if (
+    !digit.includes(key) &&
+    !actions.includes(key) &&
+    key !== "Enter" &&
+    key !== "Escape" &&
+    key !== "Backspace"
+  )
+    return;
+  if (digit.includes(key) || key === "Backspace") {
+    if (!secondNum) digitPressFirst(key);
     digitPressSecond(key);
     return;
   } else if (actions.includes(key)) {
     actionsPress(key);
     return;
-  }else if(key === "Enter"){
+  } else if (key === "Enter") {
     countEqual(key);
     return;
-  }else{
-    clearAll()
+  } else if (key === "Escape") {
+    clearAll();
   }
-
 };
 document.addEventListener("keydown", handleKeyboard);
 
@@ -63,7 +76,7 @@ const actionsPress = (key) => {
 };
 
 const digitPressFirst = (key) => {
-  if (digit.includes(key) && !sign) {
+  if ((digit.includes(key) && !sign) || key === "Backspace") {
     if (key === "0" && firstNum[0] === "0" && firstNum.length <= 2) return;
     if (key === "." && firstNum.includes(".")) {
       return;
@@ -71,15 +84,19 @@ const digitPressFirst = (key) => {
       firstNum = "0.";
       displayTextContens();
       return;
+    } else if (key !== "Backspace") {
+      firstNum += key;
+      displayTextContens();
+    } else {
+      firstNum = backSpace(firstNum);
+      displayTextContens();
     }
-    firstNum += key;
-    displayTextContens();
     return;
   }
 };
 
 const digitPressSecond = (key) => {
-  if (digit.includes(key) && sign) {
+  if ((digit.includes(key) || key === "Backspace") && sign && firstNum) {
     if (key === "." && secondNum.includes(".")) {
       return;
     } else if (key === "." && secondNum === "") {
@@ -88,25 +105,38 @@ const digitPressSecond = (key) => {
       return;
     }
     if (finish) {
-      firstNum = "";
-      firstNum = key;
-      secondNum = "";
-      third.textContent = "";
-      sign = "";
-      finish = false;
+      if (key === ".") {
+        clearAll();
+        firstNum = "0.";
+        displayTextContens();
+        return;
+      }
+      clearAll();
+      firstNum += key;
       displayTextContens();
       return;
+    } else if (key !== "Backspace") {
+      secondNum += key;
+      displayTextContens();
+    } else {
+      secondNum = backSpace(secondNum);
+      displayTextContens();
     }
-    secondNum += key;
-    displayTextContens();
-    return;
   }
 };
 
 const countEqual = (key) => {
   if (key === "=" || key === "Enter") {
-    if (secondNum === "0" && sign === "/") {
-      first.textContent = "Ділення на нуль, помилка!!!";
+    if (!secondNum && !sign) return;
+    if (secondNum === "") {
+      secondNum = firstNum;
+      displayTextContens();
+    }
+    if (firstNum && secondNum && sign && finish) {
+      displayTextContens();
+    }
+    if ((secondNum === "0" || !Number(secondNum)) && sign === "/") {
+      first.textContent = "Помилка!!! Ділення на нуль!";
       firstNum = "";
       secondNum = "";
       sign = "";
@@ -145,7 +175,7 @@ const countEqual = (key) => {
 };
 
 const handleClick = (event) => {
-  if(checkIsButton(event)) return;
+  if (checkIsButton(event)) return;
   const key = event.target.textContent;
 
   if (key === "AC") {
@@ -162,7 +192,6 @@ const handleClick = (event) => {
     }
     return;
   }
-  console.log(key);
   if (digit.includes(key)) {
     digitPressFirst(key);
     digitPressSecond(key);
