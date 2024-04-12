@@ -120,7 +120,7 @@ const countEqual = (key) => {
         ? firstNum
         : (firstNum = Number(firstNum).toFixed(6));
     } else {
-      const firstStrLength = firstNum.includes(".")
+      const firstStrLength = firstNum.toString().includes(".")
         ? firstNum.split(".")[1].length
         : 0;
       const secondStrLength = secondNum.toString().includes(".")
