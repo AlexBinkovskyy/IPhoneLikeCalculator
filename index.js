@@ -78,9 +78,8 @@ const actionsPress = (key) => {
 const digitPressFirst = (key) => {
   if ((digit.includes(key) && !sign) || key === "Backspace") {
     if (key === "0" && firstNum[0] === "0" && firstNum.length <= 1) return;
-    if (key === "." && firstNum.includes(".")) {
-      return;
-    } else if (key === "." && firstNum === "") {
+    if (key === "." && firstNum.includes(".")) return;
+    else if (key === "." && firstNum === "") {
       firstNum = "0.";
       displayTextContens();
       return;
@@ -97,9 +96,9 @@ const digitPressFirst = (key) => {
 
 const digitPressSecond = (key) => {
   if ((digit.includes(key) || key === "Backspace") && sign && firstNum) {
-    if (key === "." && secondNum.includes(".")) {
-      return;
-    } else if (key === "." && secondNum === "") {
+    if (key === "." && secondNum.includes(".")) return;
+    if (key === "0" && secondNum[0] === "0" && secondNum.length <= 1) return;
+    if (key === "." && secondNum === "") {
       secondNum = "0.";
       displayTextContens();
       return;
@@ -130,6 +129,18 @@ const countEqual = (key) => {
     if (!secondNum && !sign) return;
     if (secondNum === "") {
       secondNum = firstNum;
+      displayTextContens();
+    }
+    if (firstNum[0] === "0" && firstNum[1] !== ".") {
+      firstNum = firstNum.slice(1);
+      displayTextContens();
+    }
+    if (secondNum[0] === "0" && secondNum[1] !== ".") {
+      secondNum = secondNum.slice(1);
+      displayTextContens();
+    }
+    if(firstNum[firstNum.length-1] === '.'){
+      firstNum = firstNum.slice(0, -1);
       displayTextContens();
     }
     if (firstNum && secondNum && sign && finish) {
