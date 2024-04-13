@@ -179,7 +179,7 @@ const countEqual = (key) => {
   }
 
   if (firstNum && secondNum && sign && key === "%") {
-    secondNum = (firstNum * secondNum) / 100;
+    secondNum = ((firstNum * secondNum) / 100).toFixed(2);
     displayTextContens();
     return;
   }
