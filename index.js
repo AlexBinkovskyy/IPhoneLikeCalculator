@@ -43,6 +43,7 @@ const handleKeyboard = (event) => {
     key !== "Backspace"
   )
     return;
+  if (key === "Backspace" && finish) return;
   if (digit.includes(key) || key === "Backspace") {
     if (!secondNum) digitPressFirst(key);
     digitPressSecond(key);
@@ -62,8 +63,8 @@ document.addEventListener("keydown", handleKeyboard);
 const actionsPress = (key) => {
   if (actions.includes(key)) {
     if (!firstNum) return;
-    if(firstNum && secondNum && sign){
-      countEqual('=')
+    if (firstNum && secondNum && sign) {
+      countEqual("=");
     }
     if (finish) {
       secondNum = "";
@@ -89,7 +90,7 @@ const digitPressFirst = (key) => {
     } else if (key !== "Backspace") {
       firstNum += key;
       displayTextContens();
-    } else {
+    } else if (key === "Backspace") {
       firstNum = backSpace(firstNum);
       displayTextContens();
     }
@@ -142,7 +143,7 @@ const countEqual = (key) => {
       secondNum = secondNum.slice(1);
       displayTextContens();
     }
-    if(firstNum[firstNum.length-1] === '.'){
+    if (firstNum[firstNum.length - 1] === ".") {
       firstNum = firstNum.slice(0, -1);
       displayTextContens();
     }
@@ -154,27 +155,18 @@ const countEqual = (key) => {
       firstNum = "";
       secondNum = "";
       sign = "";
+      return;
     }
     if (
       Number.isInteger(Number(firstNum)) &&
       Number.isInteger(Number(secondNum))
     ) {
       firstNum = eval(first.textContent);
-      Number.isInteger(Number(firstNum))
-        ? firstNum
-        : (firstNum = Number(firstNum).toFixed(6));
     } else {
-      const firstStrLength = firstNum.toString().includes(".")
-        ? firstNum.split(".")[1].length
-        : 0;
-      const secondStrLength = secondNum.toString().includes(".")
-        ? secondNum.toString().split(".")[1].length
-        : 0;
       const result = eval(first.textContent);
-      const maxLength = Math.max(firstStrLength, secondStrLength);
-      firstNum = result.toFixed(maxLength);
-      if (firstNum.includes(".")) {
-        firstNum = firstNum.replace(/\.?0*$/, "");
+      firstNum = result;
+      if (firstNum.toString().includes(".")) {
+        firstNum = firstNum.toString().replace(/\.?0*$/, "");
       }
     }
     finish = true;
