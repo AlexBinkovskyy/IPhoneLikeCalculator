@@ -190,10 +190,10 @@ const handleClick = (event) => {
 
   if (event.target.classList.contains("plusMinus")) {
     if (sign && secondNum !== "") {
-      secondNum = (parseFloat(secondNum) * -1).toString();
+      secondNum = `(${(parseFloat(secondNum) * -1).toString()})`;
       displayTextContens();
     } else if (firstNum !== "") {
-      firstNum = (parseFloat(firstNum) * -1).toString();
+      firstNum = `(${(parseFloat(firstNum) * -1).toString()})`;
       first.textContent = firstNum;
     }
     return;
