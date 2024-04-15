@@ -63,7 +63,7 @@ document.addEventListener("keydown", handleKeyboard);
 const actionsPress = (key) => {
   if (actions.includes(key)) {
     if (!firstNum) return;
-    if (firstNum && secondNum && sign) {
+    if (firstNum && secondNum && sign && !finish) {
       countEqual("=");
     }
     if (finish) {
