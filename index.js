@@ -135,7 +135,7 @@ const countEqual = (key) => {
       secondNum = firstNum;
       displayTextContens();
     }
-    if (firstNum[0] === "0" && firstNum[1] !== ".") {
+    if (firstNum[0] === "0" && firstNum[1] !== "." && firstNum.length >=2) {
       firstNum = firstNum.slice(1);
       displayTextContens();
     }
