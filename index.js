@@ -29,7 +29,7 @@ const backSpace = (someNum) => {
 };
 
 const displayTextContens = () => {
-  first.textContent = `${firstNum}${sign}${secondNum}`;
+  first.textContent = `${firstNum} ${sign} ${secondNum}`;
 };
 
 const handleKeyboard = (event) => {
@@ -135,11 +135,11 @@ const countEqual = (key) => {
       secondNum = firstNum;
       displayTextContens();
     }
-    if (firstNum[0] === "0" && firstNum[1] !== "." && firstNum.length >=2) {
+    if (firstNum[0] === "0" && firstNum[1] !== "." && firstNum.length >= 2) {
       firstNum = firstNum.slice(1);
       displayTextContens();
     }
-    if (secondNum[0] === "0" && secondNum[1] !== "." && secondNum.length >=2) {
+    if (secondNum[0] === "0" && secondNum[1] !== "." && secondNum.length >= 2) {
       secondNum = secondNum.slice(1);
       displayTextContens();
     }
@@ -190,12 +190,24 @@ const handleClick = (event) => {
 
   if (event.target.classList.contains("plusMinus")) {
     if (sign && secondNum !== "") {
-      console.log(secondNum.slice(0));
+      if (eval(secondNum) < 0) {
+        secondNum = (parseFloat(eval(secondNum)) * -1).toString();
+        displayTextContens();
+        return;
+      }
       secondNum = `(${(parseFloat(eval(secondNum)) * -1).toString()})`;
       displayTextContens();
+      return;
     } else if (firstNum !== "") {
+      if (eval(firstNum) < 0) {
+        firstNum = (parseFloat(eval(firstNum)) * -1).toString();
+        displayTextContens();
+        return;
+      }
       firstNum = `(${(parseFloat(eval(firstNum)) * -1).toString()})`;
       first.textContent = firstNum;
+      displayTextContens();
+      return;
     }
     return;
   }
